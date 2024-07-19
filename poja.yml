@@ -5,7 +5,7 @@ aurora_min_capacity: null
 aurora_scale_point: null
 aurora_sleep: null
 aws_account_id: ''
-cli_version: 16.1.1
+cli_version: 16.2.1
 codeartifact_domain_name: ''
 codeartifact_repository_name: ''
 custom_java_deps: poja-custom-java-deps.txt
@@ -16,7 +16,7 @@ database_non_root_username: null
 frontal_function_timeout: 30
 frontal_memory: 512
 frontal_reserved_concurrent_executions_nb: null
-jacoco_min_coverage: '0.5'
+jacoco_min_coverage: '0.8'
 java_facade_it: FacadeIT
 package_full_name: com.harena.api
 poja_domain_owner: 088312068315
@@ -34,7 +34,7 @@ with_codeql: 'false'
 with_database: none
 with_file_storage: 'true'
 with_gen_clients: 'true'
-with_own_vpc: 'true'
+with_own_vpc: 'false'
 with_publish_to_npm_registry: 'false'
 with_queues_nb: 0
 with_sentry: 'false'
