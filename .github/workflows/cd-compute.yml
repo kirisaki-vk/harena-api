@@ -27,6 +27,8 @@ jobs:
 
     env:
       AWS_REGION: eu-west-3
+      CODEARTIFACT_USERNAME: ${{ secrets.CODEARTIFACT_USERNAME }}
+      CODEARTIFACT_URL: ${{ secrets.CODEARTIFACT_URL }}
 
     steps:
       - uses: actions/checkout@v4.1.6
@@ -46,7 +48,14 @@ jobs:
         run: |
           printf "tasks.named('test').configure {\n    enabled = false\n}" >> build.gradle
 
-      - run: sam build
+      - run: |
+          export CODEARTIFACT_PASSWORD=$(aws codeartifact get-authorization-token \
+            --domain ${{ secrets.CODEARTIFACT_DOMAIN }} \
+            --domain-owner ${{ secrets.CODEARTIFACT_OWNER }} \
+            --region ${{ env.AWS_REGION }} \
+            --query authorizationToken \
+            --output text) &&
+          sam build
 
       - name: Deploy application
         run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name ${{ github.ref_name }}-compute-harena-api --capabilities CAPABILITY_IAM --parameter-overrides Env=${{ github.ref_name }} --resolve-s3 --tags app=harena-api env=${{ github.ref_name }} user:poja=harena-api
