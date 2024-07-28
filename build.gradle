@@ -20,14 +20,14 @@ jacoco {
 
 
 repositories {
-    mavenLocal()
     maven {
-        url System.env.CODEARTIFACT_URL
+        url System.getenv("CODEARTIFACT_URL")
         credentials {
-            username System.env.CODEARTIFACT_USERNAME
-            password System.env.CODEARTIFACT_PASSWORD
+            username System.getenv("CODEARTIFACT_USERNAME")
+            password System.getenv("CODEARTIFACT_PASSWORD")
         }
     }
+    mavenLocal()
     mavenCentral()
 }
 
