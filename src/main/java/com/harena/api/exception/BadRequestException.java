@@ -1,4 +1,4 @@
-package neocode.formekouapi.exception;
+package com.harena.api.exception;
 
 import org.springframework.http.HttpStatus;
 
