@@ -12,14 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class BucketProviderIT extends FacadeIT {
-  @Autowired private BucketConf conf;
-  @MockBean EnvProvider envProvider;
+  @MockBean
+  EnvProvider envProvider;
+  @Autowired
+  BucketComponent bucketComponent;
+  @Autowired
+  BucketConf conf;
 
   @Test
   void bucket_provider_local() {
     when(envProvider.getEnv("STORAGE_METHOD")).thenReturn("LOCAL");
 
-    BucketProvider subjectLocal = new BucketProvider(conf, envProvider);
+    BucketProvider subjectLocal = new BucketProvider(envProvider, conf, bucketComponent);
     assertInstanceOf(LocalBucketComponent.class, subjectLocal.getBucket());
   }
 
@@ -27,7 +31,7 @@ public class BucketProviderIT extends FacadeIT {
   void bucket_provider_remote() {
     when(envProvider.getEnv("STORAGE_METHOD")).thenReturn("REMOTE");
 
-    BucketProvider subjectRemote = new BucketProvider(conf, envProvider);
+    BucketProvider subjectRemote = new BucketProvider(envProvider, conf, bucketComponent);
     assertInstanceOf(BucketComponent.class, subjectRemote.getBucket());
   }
 }

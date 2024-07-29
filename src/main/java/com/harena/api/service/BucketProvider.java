@@ -9,15 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class BucketProvider {
-  private final BucketConf bucketConf;
   private final EnvProvider envProvider;
+  private final BucketConf bucketConf;
+  private final BucketComponent bucketComponent;
 
   public BucketComponent getBucket() {
     if (envProvider.getEnv("STORAGE_METHOD") != null
         && envProvider.getEnv("STORAGE_METHOD").equals("LOCAL")) {
       return new LocalBucketComponent(bucketConf);
     } else {
-      return new BucketComponent(bucketConf);
+      return bucketComponent;
     }
   }
 }
