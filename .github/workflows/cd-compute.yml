@@ -50,8 +50,8 @@ jobs:
 
       - run: |
           export CODEARTIFACT_PASSWORD=$(aws codeartifact get-authorization-token \
-            --domain ${{ secrets.CODEARTIFACT_DOMAIN }} \
-            --domain-owner ${{ secrets.CODEARTIFACT_OWNER }} \
+            --domain maven-hei-lab \
+            --domain-owner 057045785189 \
             --region ${{ env.AWS_REGION }} \
             --query authorizationToken \
             --output text) &&
