@@ -27,8 +27,8 @@ jobs:
 
     env:
       AWS_REGION: eu-west-3
-      CODEARTIFACT_USERNAME: ${{ secrets.CODEARTIFACT_USERNAME }}
-      CODEARTIFACT_URL: ${{ secrets.CODEARTIFACT_URL }}
+      CODEARTIFACT_USERNAME: harena-api
+      CODEARTIFACT_URL: https://maven-hei-lab-057045785189.d.codeartifact.eu-west-3.amazonaws.com/maven/patrimoine/
 
     steps:
       - uses: actions/checkout@v4.1.6
