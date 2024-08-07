@@ -28,7 +28,7 @@ public class PossessionController {
       @RequestParam("page") int pageNumber,
       @RequestParam("page_size") int pageSize) {
     var possessions =
-        possessionService.getPossessions(nomPatrimoine).orElseThrow(NotFoundException::new);
+        possessionService.getPossessions(nomPatrimoine);
     List<Possession> possessionList =
         possessions.stream().map(possesionMapper::toRestModel).toList();
     Pageable<Possession> possessionPageable = new Pageable<>(possessionList);
