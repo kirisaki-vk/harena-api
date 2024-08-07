@@ -33,8 +33,7 @@ public class PossessionService {
 
   public List<Possession> savePossessions(
       String patrimoineName, List<Possession> toSavePossessions) {
-    Patrimoine patrimoine =
-        patrimoineService.getPatrimone(StringNormalizer.apply(patrimoineName));
+    Patrimoine patrimoine = patrimoineService.getPatrimone(StringNormalizer.apply(patrimoineName));
 
     HashMap<String, Possession> possessions = retrievePossessions(patrimoine);
     toSavePossessions.forEach(

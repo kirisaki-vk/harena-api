@@ -5,9 +5,7 @@ import com.harena.api.endpoint.rest.model.ListPayload;
 import com.harena.api.endpoint.rest.model.Patrimoine;
 import com.harena.api.service.PatrimoineService;
 import com.harena.api.utils.PageRequest;
-
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +29,10 @@ public class PatrimoineController {
   @GetMapping
   public ListPayload<Patrimoine> getPatrimoines(
       @RequestParam("page") int pageNumber, @RequestParam("page_size") int pageSize) {
-    return new ListPayload<>(patrimoineService.getAllPatrimoine(PageRequest.of(pageNumber, pageSize)).stream()
-        .map(patrimoineMapper::toRestModel)
-        .toList());
+    return new ListPayload<>(
+        patrimoineService.getAllPatrimoine(PageRequest.of(pageNumber, pageSize)).stream()
+            .map(patrimoineMapper::toRestModel)
+            .toList());
   }
 
   @GetMapping("/{nomPatrimoine}")

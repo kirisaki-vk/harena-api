@@ -3,7 +3,6 @@ package com.harena.api.service;
 import com.harena.api.utils.StringNormalizer;
 import java.io.File;
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,8 +32,7 @@ public class ProjectionFutureService {
 
   private EvolutionPatrimoine getEvolutionPatrimoine(
       String patrimoineName, LocalDate startDate, LocalDate endDate) {
-    Patrimoine patrimoine =
-        patrimoineService.getPatrimone(StringNormalizer.apply(patrimoineName));
-    return  new EvolutionPatrimoine(patrimoine.nom(), patrimoine, startDate, endDate);
+    Patrimoine patrimoine = patrimoineService.getPatrimone(StringNormalizer.apply(patrimoineName));
+    return new EvolutionPatrimoine(patrimoine.nom(), patrimoine, startDate, endDate);
   }
 }
