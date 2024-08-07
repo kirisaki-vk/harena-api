@@ -6,8 +6,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.harena.api.conf.FacadeIT;
+import com.harena.api.file.BucketComponent;
 import com.harena.api.file.FileHash;
-import com.harena.api.file.LocalBucketComponent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,8 +24,8 @@ import school.hei.patrimoine.modele.Patrimoine;
 import school.hei.patrimoine.serialisation.Serialiseur;
 
 class PatrimoineServiceIT extends FacadeIT {
-  @MockBean LocalBucketComponent localBucketComponent;
-  @MockBean BucketProvider provider;
+  @MockBean
+  BucketComponent bucketComponent;
   @Autowired PatrimoineService subject;
   private final PatrimoineZetyAu3Juillet2024 patrimoineZetySupplier =
       new PatrimoineZetyAu3Juillet2024();
@@ -37,9 +37,8 @@ class PatrimoineServiceIT extends FacadeIT {
     HashMap<String, Patrimoine> baseMap = new HashMap<>();
     baseMap.put("test", patrimoineZetySupplier.get());
     Files.writeString(tempFile, serializer.serialise(baseMap));
-    when(provider.getBucket()).thenReturn(localBucketComponent);
-    when(localBucketComponent.download(any())).thenReturn(tempFile.toFile());
-    when(localBucketComponent.upload(any(), any())).thenReturn(new FileHash(NONE, "hash"));
+    when(bucketComponent.download(any())).thenReturn(tempFile.toFile());
+    when(bucketComponent.upload(any(), any())).thenReturn(new FileHash(NONE, "hash"));
 
     assertFalse(subject.getAllPatrimoine().isEmpty());
     assertTrue(subject.getPatrimone("test").isPresent());
@@ -49,10 +48,8 @@ class PatrimoineServiceIT extends FacadeIT {
 
   @Test
   void patrimoine_service_test_with_no_files() throws IOException {
-    String randomFilename = UUID.randomUUID() + "-harena-tests";
-    when(provider.getBucket()).thenReturn(localBucketComponent);
-    when(localBucketComponent.download(any()))
-        .thenReturn(new File("/tmp/random-file-harena_api_test" + randomFilename));
+    when(bucketComponent.download(any()))
+        .thenReturn(Files.createTempFile("harena-tests", null).toFile());
 
     assertTrue(subject.getAllPatrimoine().isEmpty());
     assertTrue(subject.getPatrimone("test").isEmpty());
