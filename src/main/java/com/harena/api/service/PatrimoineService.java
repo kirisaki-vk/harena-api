@@ -89,6 +89,7 @@ public class PatrimoineService {
             .forEach(
                     file -> patrimoineFiles.add(bucketComponent.download(file.key())));
       }
+      pageNumber++;
     }
 
     return patrimoineFiles.stream()
