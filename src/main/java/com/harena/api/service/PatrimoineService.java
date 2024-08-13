@@ -17,12 +17,10 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import school.hei.patrimoine.modele.Patrimoine;
 import school.hei.patrimoine.serialisation.Serialiseur;
+import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
-import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
-import software.amazon.awssdk.services.s3.model.S3Exception;
 import software.amazon.awssdk.services.s3.paginators.ListObjectsV2Iterable;
-import java.lang.StringTemplate.Processor;
 
 import static java.lang.StringTemplate.STR;
 import static java.nio.file.Files.createTempDirectory;
@@ -42,12 +40,11 @@ public class PatrimoineService {
     try {
       patrimoineFile =
           bucketComponent.download(PATRIMOINE_KEY_PREFIX + StringNormalizer.apply(patrimoineName));
-    } catch (NoSuchKeyException e) {
-      throw new NotFoundException(STR."Patrimoine \{patrimoineName} not found");
-    } catch (S3Exception e) {
-      throw new InternalServerErrorException(STR."Error accessing S3 for patrimoine \{patrimoineName}: \{e.getMessage()}");
-    } catch (Exception e) {
-      throw new InternalServerErrorException(STR."Unexpected error while retrieving patrimoine \{patrimoineName}: \{e.getMessage()}");
+    } catch (SdkClientException e) {
+      if (e.getMessage().contains("Unable to load credentials")) {
+        throw new NotFoundException(STR."Patrimoine \{patrimoineName} not found");
+      }
+      throw e;
     }
 
     try {
